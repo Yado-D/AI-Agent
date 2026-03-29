@@ -1,0 +1,6 @@
+__pycache__/
+*.py[cod]
+*$py.class
+temp_input.mp3
+temp_output.mp3
+.env

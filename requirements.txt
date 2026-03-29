@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+python-multipart
+google-genai
+faster-whisper
+gTTS
+pydantic
+python-dotenv
