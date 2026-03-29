@@ -3,7 +3,7 @@ os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 
 from faster_whisper import WhisperModel
 
-model = WhisperModel("base")
+model = WhisperModel("tiny", compute_type="int8")
 
 def audio_to_text(audio_path: str) -> str:
     segments, _ = model.transcribe(audio_path)

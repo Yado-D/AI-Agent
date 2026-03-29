@@ -1,5 +1,6 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.responses import FileResponse
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import shutil
 import os
@@ -9,6 +10,19 @@ from wisper import audio_to_text
 from gtt import text_to_audio
 
 app = FastAPI(title="AI Voice/Text Agent API")
+
+# Add CORS middleware to allow cross-origin requests
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+@app.get("/")
+async def root():
+    return {"message": "AI Voice/Text Agent API is running!"}
 
 class TextRequest(BaseModel):
     prompt: str
@@ -49,3 +63,9 @@ async def chat_voice(file: UploadFile = File(...)):
     finally:
         if os.path.exists(input_path):
             os.remove(input_path)
+
+if __name__ == "__main__":
+    import uvicorn
+    # Make sure to bind to 0.0.0.0 and the PORT provided by Render
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
